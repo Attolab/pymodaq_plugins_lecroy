@@ -9,4 +9,4 @@ author-email = 'david.bresteau@cea.fr'
 license = 'MIT'
 
 [plugin-install]
-packages-required = []
+packages-required = ["pymodaq", "numpy", "easydict", "pyvisa", "pywin32"]

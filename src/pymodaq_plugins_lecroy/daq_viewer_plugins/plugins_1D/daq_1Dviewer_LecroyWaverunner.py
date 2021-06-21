@@ -3,7 +3,7 @@ import time
 from easydict import EasyDict as edict
 from pymodaq.daq_utils.daq_utils import ThreadCommand, getLineInfo, DataFromPlugins, Axis
 from pymodaq.daq_viewer.utility_classes import DAQ_Viewer_base, comon_parameters
-from visa import ResourceManager
+from pyvisa import ResourceManager
 # Import the pywin32 library, this library allow the control of other applications.
 # Used here for LeCroy.ActiveDSOCtrl.1
 # The methods of ActiveDSO are described in the documentation Lecroy ActiveDSO Developers Guide
@@ -25,12 +25,15 @@ This plugin has been designed for Lecroy Waverunner oscilloscopes (tested with
 waverunner 610Zi and waverunner 9104 ).
 This plugin necessarily needs a Windows operating system (tested with Windows 10).
 You would need to install (at least):
+    - pymodaq (tested with 3.1.2 version): pip install pymodaq
     - Lecroy ActiveDSO :
     https://teledynelecroy.com/support/softwaredownload/activedso.aspx?capid=106&mid=533&smid=
     - NI-VISA :
     https://www.ni.com/fr-fr/support/downloads/drivers/download.ni-visa.html#305862
-    - pyvisa : https://pyvisa.readthedocs.io/en/latest/index.html
-Tested with pymodaq 3.1.2.
+    - pyvisa: pip install pyvisa
+    - pywin32: pip install pywin32
+
+The plugin has been tested with pymodaq 3.1.2.
 
 How to use / bugs
 -----------------
