@@ -114,13 +114,13 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
         {'title': 'Trigger',
              'name': 'triggerGroup',
              'type': 'group',
-            'children': [        
+            'children': [      
         {'title': 'source',
              'name': 'triggerSource',
              'type': 'list',
             'limits': ["EXT","C1", "C2", "C3", "C4","EXT10"],
             'value':"EX",
-        },
+        },                                    
         {'title': 'delay',
              'name': 'triggerDelay',
              'type': 'float',
@@ -137,20 +137,25 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
         'suffix': 'V',
         'finite': True,
         'dec': True,
-        },  
+        },                
         {'title': 'mode',
              'name': 'triggerMode',
              'type': 'list',
             'limits': ['AUTO', 'NORMAL', 'STOPPED', 'SINGLE'],
             'value': "NORMAL",
-        },                           
+        },                   
         ],     
         },
         {'title': 'Display',
              'name': 'doDisplay',
              'type': 'bool',
+            'value': False,        
+        },      
+        {'title': 'Persistence',
+             'name': 'doPersistence',
+             'type': 'bool',
             'value': True,        
-        },                  
+        },                          
         {'title': 'Sequence',
              'name': 'number_of_segments',
              'type': 'int',
@@ -201,6 +206,8 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
         self.x_axis = None
         self.start = 0
         self.end = 0
+        self.isRunning = False
+
 
     def __init__(self, parent=None, params_state=None):
         super().__init__(parent, params_state)
@@ -250,6 +257,11 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
                 self.controller.write('DISP ON')
             else:
                 self.controller.write('DISP OFF')          
+        elif param.name() == 'doPersistence':
+            if param.value():
+                self.controller.write('PERS ON')
+            else:
+                self.controller.write('PERS OFF')          
         elif param.name() =='memorySize':
             self.controller.write(f'MSIZ {param.value()}')
         elif param.name() == 'clear_sweeps':
@@ -257,6 +269,8 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
         elif param.name() == 'force_trigger':
             self.controller.write('FRTR')
         self.changingSettings = False
+        if self.isRunning:
+            time.sleep(0.5)
 
     def getSegArray(self,):
         L_seg = (numString2Int(self.settings.child('memorySize').value())+2)
@@ -286,9 +300,11 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
             False if initialization failed otherwise True
         """        
 
-        self.controller = LeCroyDSO(activeDSO)
-        # self.ini_detector_init(old_controller=controller,
-        #                     new_controller=TeledyneLeCroyPy.LeCroyWaveRunner(resources[0]))
+        # self.controller = LeCroyDSO(activeDSO)
+        self.ini_detector_init(old_controller=controller,
+                            new_controller=LeCroyDSO(activeDSO))
+        
+        # self.controller.write('*RST')
         [self.commit_settings(param) for param in utils.iter_children_params(self.settings)]
 
         ## TODO for your custom plugin
@@ -324,11 +340,9 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
             others optionals arguments
         """
         ## TODO for your custom plugin: you should choose EITHER the synchrone or the asynchrone version following
+        self.isRunning = True
         if not self.changingSettings:
             self.start = time.time()
-            if self.settings.child('triggerGroup','triggerMode') == 'SINGLE':
-                self.controller.set_trigger_mode("SINGLE")
-
             data_temp=[]
             L_seg = (numString2Int(self.settings.child('memorySize').value())+2)
             for i,c in enumerate(self.channelList):
@@ -363,7 +377,7 @@ class DAQ_1DViewer_LecroyWaverunner(DAQ_Viewer_base):
             ##asynchrone version (non-blocking function with callback)
             # self.controller.your_method_to_start_a_grab_snap(self.callback)
             #########################################################
-
+        self.isRunning = False
 
     def callback(self):
         """optional asynchrone method called when the detector has finished its acquisition of data"""
