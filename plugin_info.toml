@@ -9,4 +9,4 @@ author-email = 'constant.schouder@cea.fr'
 license = 'MIT'
 
 [plugin-install]
-packages-required = ["pymodaq", "numpy", "easydict", "pyvisa", "pywin32","lecroydso"]
+packages-required = ["pymodaq>=4.0.0", "numpy", "easydict", "pyvisa", "pywin32", "LeCroyDSO"]
