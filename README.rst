@@ -24,11 +24,11 @@ Oscilloscope Lecroy waverunner 9104
 System requirements
 ===================
 
-Operating system: Windows 7 or 10
+Operating system: Windows 10
 
-Python: 3.7
+Python >= 3.8 
 
-PyMoDAQ: 3.1.2
+PyMoDAQ: 3.4
 
 Installation
 ============
@@ -37,7 +37,7 @@ You need the following python packages to run this plugin.
 They can be installed using the command *pip install <package-name>* in a console
 where you activated your python environment.
 
-pymodaq >= 3.1.2
+pymodaq >= 3.4
 
 numpy
 
@@ -46,6 +46,8 @@ easydict
 pyvisa
 
 pywin32
+
+lecroy
 
 You will also need to install the following softwares.
 Follow the link to get the installers.
@@ -58,4 +60,11 @@ NI-VISA: https://www.ni.com/fr-fr/support/downloads/drivers/download.ni-visa.htm
 Authors
 =======
 
+* Constant Schouder (constant.schouder@cea.fr)
 * David Bresteau (david.bresteau@cea.fr)
+
+    Contributors
+    ============
+
+    * Gabriele Crippa
+    * Simon Høgh Albretchsen

@@ -4,9 +4,9 @@ SHORT_PLUGIN_NAME = 'lecroy'
 package-url = 'https://github.com/Attolab/pymodaq_plugins_lecroy'
 description = 'PyMoDAQ plugin for Lecroy oscilloscopes (Waverunner).'
 
-author = 'David Bresteau'
-author-email = 'david.bresteau@cea.fr'
+author = 'Constant Schouder'
+author-email = 'constant.schouder@cea.fr'
 license = 'MIT'
 
 [plugin-install]
-packages-required = ["pymodaq", "numpy", "easydict", "pyvisa", "pywin32"]
+packages-required = ["pymodaq", "numpy", "easydict", "pyvisa", "pywin32","lecroydso"]
